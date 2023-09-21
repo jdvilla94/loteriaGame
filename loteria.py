@@ -6,7 +6,7 @@ import loteriaDictionary
 pygame.init()
 
 loteriaDictionary = {'El Gallo':'assets/elGallo.png','El diablito':'assets/elDiablito.png',
-                     'La Dama':'assets/laDama.png'
+                     'La Dama':'assets/laDama.png','El Catrin':'assets/elCatrin.png'
                      }
 
 # for card,image in loteriaDictionary.items():
