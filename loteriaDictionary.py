@@ -1,0 +1,1 @@
+loteriaDictionary = {'El Gallo':'assets/elGallo.png'}
