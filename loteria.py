@@ -5,7 +5,9 @@ import loteriaDictionary
 
 pygame.init()
 
-loteriaDictionary = {'El Gallo':'assets/elGallo.png','El diablito':'assets/elDiablito.png'}
+loteriaDictionary = {'El Gallo':'assets/elGallo.png','El diablito':'assets/elDiablito.png',
+                     'La Dama':'assets/laDama.png'
+                     }
 
 # for card,image in loteriaDictionary.items():
 #     print(card,image)
@@ -42,16 +44,18 @@ def drawText(text,font,textColor,x,y):
 
 def populateCard():
     xPos = 0
-    for card,image in loteriaDictionary.items():
-        yPos = 0
-        # print(card,image)
-        image = pygame.image.load(image)
-        imageSize = (200,200)
-        cardImage = pygame.transform.scale(image,imageSize)
-        cardText = font.render(card,True,'blue')
-        screen.blit(cardImage,(100,100))
-        yPos +=1
-    xPos +=1
+    for x in range(4):
+        for card,image in loteriaDictionary.items():
+            yPos = 0
+                # print(card,image)
+            image = pygame.image.load(image)
+            imageSize = (200,200)
+            cardImage = pygame.transform.scale(image,imageSize)
+            cardText = font.render(card,True,'blue')
+            screen.blit(cardImage,(xPos*200,yPos*200))
+            yPos +=1
+        xPos +=1
+    # print(xPos,yPos)
 
 
 def drawGameGrid():
