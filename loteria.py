@@ -21,12 +21,36 @@ loteriaImageList = ['assets/elGallo.png','assets/elDiablito.png',
                     'assets/elArpa.png','assets/laRana.png'
                     ]
 
+cardList =          ['assets/elGallo.png','assets/elDiablito.png',
+                     'assets/laDama.png','assets/elCatrin.png','assets/elParaguas.png',
+                    'assets/laSirena.png','assets/laEscalera.png','assets/laBotella.png',
+                     'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png','assets/elValiente.png',
+                     'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png','assets/elBandolon.png',
+                     'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laLuna.png',
+                     'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorzaon.png','assets/laSandia.png',
+                     'assets/elTambor.png','assets/elCameron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
+                     'assets/laEstrella.png','assets/elCazo.png','assets/elMundo.png','assets/elApache.png','assets/elNopal.png','assets/elAlacran.png',
+                    'assets/laRosa.png','assets/laCalavera.png','assets/laCampana.png','assets/elCantarito.png','assets/elVenado.png','assets/elSol.png',
+                    'assets/laCorona.png','assets/laChalupa.png','assets/elPino.png','assets/elPescado.png','assets/laPalma.png','assets/laMaceta.png',
+                    'assets/elArpa.png','assets/laRana.png'
+                    ]
+
 newList = random.sample(loteriaImageList,16)
+shuffleCard = random.choice(cardList)
+print(shuffleCard)
+
 # print(newList)
 
 #set dimensions for window
 screenWidth = 1250
 screenHeight = 1000
+
+#rects dimensions
+cardWidth = 300
+cardHeight = 300
+cardX = 900
+cardY = 10
+recColor = 'white'
 
 randY = random.randint(10,780)
 randX = random.randint(10,780)
@@ -52,6 +76,25 @@ player = 1
 def drawText(text,font,textColor,x,y):
     img = font.render(text,True,textColor)
     screen.blit(img,(x,y))
+
+def drawCardRect():
+    rectangle = pygame.Rect(cardX,cardY,cardWidth,cardHeight)
+    # pygame.draw.rect(screen,pygame.Color('white'),pygame.Rect(10,10,780,780),10)
+    pygame.draw.rect(screen,recColor,rectangle,10)
+
+def randomCard():
+    cardList = loteriaImageList
+    shuffleCard = random.choice(cardList)
+    cardList.remove(shuffleCard)
+    for index, image in enumerate(cardList):
+        image = pygame.image.load(image)
+        imageSize = (300,300)
+        cardImage = pygame.transform.scale(image,imageSize)
+        screen.blit(cardImage,pygame.Vector2(900,10))
+    print(len(cardList))
+
+def checkWinner():
+    pass
 
 def populateCard():
     #creates a 2d list with dimensions, rows and columns, initialized with zeros
@@ -106,6 +149,8 @@ while running:
     if gameStart == True:
         drawGameGrid()
         populateCard()
+        drawCardRect()
+        randomCard()
     else:
         drawText('Press space to pause',font,textColor,160,250)
 
