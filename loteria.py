@@ -7,42 +7,26 @@ import sys
 
 pygame.init()
 
-loteriaDictionary = {'El Gallo':'assets/elGallo.png','El diablito':'assets/elDiablito.png',
-                     'La Dama':'assets/laDama.png','El Catrin':'assets/elCatrin.png','El Paraguas':'assets/elParaguas.png',
-                     'La Sirena':'assets/laSirena.png','La Escalera':'assets/laEscalera.png','La Botella':'assets/laBotella.png',
-                     'El Barril':'assets/elBarril.png','El Arbol ':'assets/elArbol.png','El Melon':'assets/elMelon.png'
-                     }
-
-loteriaDescList = ['El Gallo','El diablito',
-                     'La Dama','El Catrin','El Paraguas',
-                     'La Sirena','La Escalera','La Botella',
-                     'El Barril','El Arbol ','El Melon','El Valiente','El Gorrito','La Muerte','La Pera',
-                      'La Bandera'
-                       ]
-
 loteriaImageList = ['assets/elGallo.png','assets/elDiablito.png',
                      'assets/laDama.png','assets/elCatrin.png','assets/elParaguas.png',
                     'assets/laSirena.png','assets/laEscalera.png','assets/laBotella.png',
                      'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png','assets/elValiente.png',
-                     'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png'
-                     ]
+                     'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png','assets/elBandolon.png',
+                     'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laLuna.png',
+                     'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorzaon.png','assets/laSandia.png',
+                     'assets/elTambor.png','assets/elCameron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
+                     'assets/laEstrella.png','assets/elCazo.png','assets/elMundo.png','assets/elApache.png','assets/elNopal.png','assets/elAlacran.png',
+                    'assets/laRosa.png','assets/laCalavera.png','assets/laCampana.png','assets/elCantarito.png','assets/elVenado.png','assets/elSol.png',
+                    'assets/laCorona.png','assets/laChalupa.png','assets/elPino.png','assets/elPescado.png','assets/laPalma.png','assets/laMaceta.png',
+                    'assets/elArpa.png','assets/laRana.png'
+                    ]
 
-newList = random.sample(loteriaImageList,len(loteriaImageList))
-
-# cardGrid = [[1,2,3,4],
-#                 [1,2,3,4],
-#                 [1,2,3,4],
-#                 [1,2,3,4]
-#                 ]
-
-# print(random.sample(loteriaImageList,len(loteriaImageList)))
-
-# for card,image in loteriaDictionary.items():
-#     print(card,image)
+newList = random.sample(loteriaImageList,16)
+# print(newList)
 
 #set dimensions for window
-screenWidth = 800
-screenHeight = 800
+screenWidth = 1250
+screenHeight = 1000
 
 randY = random.randint(10,780)
 randX = random.randint(10,780)
@@ -63,16 +47,7 @@ textColor = 'white'
 #define variables
 lineWidth = 10
 player = 1
-# currentCard = []
 
-#card grid
-# cardGrid = []
-
-# print(cardGrid)
-
-# for x in range(6):
-#     row = [0]*6#create a row list 
-#     currentCard.append(row)
 
 def drawText(text,font,textColor,x,y):
     img = font.render(text,True,textColor)
