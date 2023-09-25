@@ -16,16 +16,24 @@ loteriaDictionary = {'El Gallo':'assets/elGallo.png','El diablito':'assets/elDia
 loteriaDescList = ['El Gallo','El diablito',
                      'La Dama','El Catrin','El Paraguas',
                      'La Sirena','La Escalera','La Botella',
-                     'El Barril','El Arbol ','El Melon']
+                     'El Barril','El Arbol ','El Melon','El Valiente','El Gorrito','La Muerte','La Pera',
+                      'La Bandera'
+                       ]
 
 loteriaImageList = ['assets/elGallo.png','assets/elDiablito.png',
                      'assets/laDama.png','assets/elCatrin.png','assets/elParaguas.png',
                     'assets/laSirena.png','assets/laEscalera.png','assets/laBotella.png',
-                     'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png',
-                     
+                     'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png','assets/elValiente.png',
+                     'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png'
                      ]
 
 newList = random.sample(loteriaImageList,len(loteriaImageList))
+
+# cardGrid = [[1,2,3,4],
+#                 [1,2,3,4],
+#                 [1,2,3,4],
+#                 [1,2,3,4]
+#                 ]
 
 # print(random.sample(loteriaImageList,len(loteriaImageList)))
 
@@ -58,11 +66,7 @@ player = 1
 # currentCard = []
 
 #card grid
-cardGrid = [[1,2,3,4],
-            [5,6,7,8],
-            [9,10,11,12],
-            [13,14,15,16]
-            ]
+# cardGrid = []
 
 # print(cardGrid)
 
@@ -75,23 +79,32 @@ def drawText(text,font,textColor,x,y):
     screen.blit(img,(x,y))
 
 def populateCard():
-    
+    #creates a 2d list with dimensions, rows and columns, initialized with zeros
+    rows,columns = (4,4)
+    cardGrid = [[0 for i in range(rows)]for j in range (columns)]
+
+    #iterate through the values and add them to the 2d grid
+    # for i in range(len(loteriaDescList)):
+    for index, image in enumerate(newList):
+        #calculate the row and column
+        row = index //columns# calculate the row index
+        col = index % columns#calculate the column index
+        #add the value to the position in the 2d grid/matrix
+        image = pygame.image.load(image)
+        imageSize = (150,150)
+        cardImage = pygame.transform.scale(image,imageSize)
+        cardGrid[row][col] = cardImage
+
+    # print(cardGrid)
+  
     row = 0
-    while row < 4:
+    while row <4:
+        # for row in range(0,4):
         column = 0
-        # newList = random.sample(loteriaImageList,len(loteriaImageList))
-        while column < 4:
-            for index, image in enumerate(loteriaImageList):
-                image = pygame.image.load(image)
-                imageSize = (150,150)
-                cardImage = pygame.transform.scale(image,imageSize)
-                # cardText = font.render(str(card),True,'blue')
-                # screen.blit(cardText,(column*195+33.5,row*195+30))
-                screen.blit(cardImage,(column*195+33.5,row*195+30))
-                column+=1
-            row+=1
-    #     # pygame.display.update()
-    #     # time.sleep(.2) 
+        while column <4:
+            screen.blit(cardGrid[row][column],pygame.Vector2((column*195+33.5),(row*195+30)))
+            column+=1
+        row +=1
 
 
 def drawGameGrid():
