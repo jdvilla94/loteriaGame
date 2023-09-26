@@ -71,6 +71,7 @@ textColor = 'white'
 #define variables
 lineWidth = 10
 player = 1
+clicked = False
 
 
 def drawText(text,font,textColor,x,y):
@@ -84,16 +85,19 @@ def drawCardRect():
 
 def randomCard():
     cardList = loteriaImageList
-    shuffleCard = random.choice(cardList)
-    cardList.remove(shuffleCard)
     for index, image in enumerate(cardList):
-        image = pygame.image.load(image)
+        shuffleCard = random.choice(cardList)
+        image = pygame.image.load(shuffleCard)
         imageSize = (300,300)
         cardImage = pygame.transform.scale(image,imageSize)
         screen.blit(cardImage,pygame.Vector2(900,10))
+    cardList.remove(shuffleCard)
     print(len(cardList))
 
 def checkWinner():
+    pass
+
+def clickSquare():
     pass
 
 def populateCard():
@@ -125,6 +129,8 @@ def populateCard():
         row +=1
 
 
+
+
 def drawGameGrid():
     background = 'black'
     grid = 'white'
@@ -150,7 +156,7 @@ while running:
         drawGameGrid()
         populateCard()
         drawCardRect()
-        randomCard()
+        # randomCard() 
     else:
         drawText('Press space to pause',font,textColor,160,250)
 
