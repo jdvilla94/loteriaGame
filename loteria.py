@@ -35,9 +35,11 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
                     'assets/elArpa.png','assets/laRana.png'
                     ]
 
+poppedCardList = []
+
 newList = random.sample(loteriaImageList,16)
 shuffleCard = random.choice(cardList)
-print(shuffleCard)
+# print(shuffleCard)
 
 # print(newList)
 
@@ -61,6 +63,10 @@ pygame.display.set_caption('Loteria')
 
 #game variables
 gameStart = False
+winner = 0
+clicked = False
+gameOver = False
+currentCard = ''
 
 #define Fonts
 font = pygame.font.SysFont('arialBlack',40)
@@ -71,7 +77,7 @@ textColor = 'white'
 #define variables
 lineWidth = 10
 player = 1
-clicked = False
+
 
 
 def drawText(text,font,textColor,x,y):
@@ -84,21 +90,56 @@ def drawCardRect():
     pygame.draw.rect(screen,recColor,rectangle,10)
 
 def randomCard():
-    cardList = loteriaImageList
-    for index, image in enumerate(cardList):
-        shuffleCard = random.choice(cardList)
-        image = pygame.image.load(shuffleCard)
-        imageSize = (300,300)
-        cardImage = pygame.transform.scale(image,imageSize)
-        screen.blit(cardImage,pygame.Vector2(900,10))
-    cardList.remove(shuffleCard)
-    print(len(cardList))
+    pass
+    # shuffleCard = random.choice(cardList)
+    # print('You clicked the random card function')
+    # image = pygame.image.load(shuffleCard)
+    # imageSize = (300,300)
+    # cardImage = pygame.transform.scale(image,imageSize)
+    # screen.blit(cardImage,pygame.Vector2(900,10))
+    # currentCard = shuffleCard
+    # clicked = False
+
+                
+    # for index, image in enumerate(cardList):
+    #     shuffleCard = random.choice(cardList)
+    #     image = pygame.image.load(shuffleCard)
+    #     imageSize = (300,300)
+    #     cardImage = pygame.transform.scale(image,imageSize)
+    #     print('YOU MADE IT THIS FAR')
+    #     screen.blit(cardImage,pygame.Vector2(900,10))
+    #             # cardList.remove(shuffleCard)
+    # print(len(cardList))
 
 def checkWinner():
     pass
 
 def clickSquare():
-    pass
+    # print(f"Clicked on cell({row},{column})")
+    # randomCard()
+    global clicked
+    global shuffleCard
+    global currentCard
+    global cardImage
+
+    if clicked == True:
+        shuffleCard = random.choice(cardList)
+        currentCard = shuffleCard
+        image = pygame.image.load(shuffleCard)
+        imageSize = (300,300)
+        cardImage = pygame.transform.scale(image,imageSize)
+        print('YOU MADE IT THIS FAR')
+        screen.blit(cardImage,pygame.Vector2(900,10))
+            # cardList.remove(shuffleCard)
+    else:
+        print('the image should still be shown on the screen')
+        image = pygame.image.load(currentCard)
+        imageSize = (300,300)
+        cardImage = pygame.transform.scale(image,imageSize)
+        print('YOU MADE IT THIS FAR')
+        screen.blit(cardImage,pygame.Vector2(900,10))
+        print('the current card is: ' + currentCard)
+        
 
 def populateCard():
     #creates a 2d list with dimensions, rows and columns, initialized with zeros
@@ -136,11 +177,6 @@ def drawGameGrid():
     grid = 'white'
     screen.fill(background)
     pygame.draw.rect(screen,pygame.Color('white'),pygame.Rect(10,10,780,780),10)
-    # i = 1
-    # while (i*200) < 770:
-    #     pygame.draw.line(screen,pygame.Color('white'),pygame.Vector2((i*200)+15,15),pygame.Vector2((i*80)+15,785),3)
-    #     i+=1
-
 
     for x in range(1,4):
         pygame.draw.line(screen,grid,(10,x*195+10),(780,x*195+10),lineWidth)
@@ -166,6 +202,20 @@ while running:
                 gameStart = True
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                x,y = pygame.mouse.get_pos()
+                if 900 < x <1200 and 10<y<400:
+                    if not clicked:
+                        clicked = True
+                        clickSquare()
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                x,y = pygame.mouse.get_pos()
+                if 900 < x <1200 and 10<y<400:
+                    if clicked:
+                        clicked = False
+                        clickSquare()
 
     pygame.display.update()
 pygame.quit()
