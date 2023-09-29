@@ -36,9 +36,12 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
                     ]
 
 poppedCardList = []
+copyCardGrid = []
 
 
 newList = random.sample(loteriaImageList,16)
+
+shuffleCard = ''
 # shuffleCard = random.choice(cardList)
 # print(shuffleCard)
 
@@ -82,7 +85,6 @@ lineWidth = 10
 player = 1
 
 
-
 def drawText(text,font,textColor,x,y):
     img = font.render(text,True,textColor)
     screen.blit(img,(x,y))
@@ -98,12 +100,17 @@ def drawSecondCardRect():
     pygame.draw.rect(screen,recColor,rectangle,10)
 
 def drawBeanToScreen():
-    pass
-    # image = pygame.image.load('assets/frijole.png')
-    # imageSize = (75,75)
-    # cardImage = pygame.transform.scale(image,imageSize)
-    # screen.blit(cardImage,pygame.Vector2(900,10))
- 
+    global currentCard
+    for rowIndex,row in enumerate(copyCardGrid):
+        for colIndex,element in enumerate(row):
+            # print(element)
+            if currentCard == element:
+                # print('we have a match')
+                image = pygame.image.load('assets/frijole.png')
+                imageSize = (75,75)
+                cardImage = pygame.transform.scale(image,imageSize)
+                screen.blit(cardImage,pygame.Vector2(colIndex*195+33.5,rowIndex*195+30))
+            #     # pygame.display.update()
 
 def checkWinner():
     pass
@@ -120,8 +127,10 @@ def clickSquare():
     global clicked
     global shuffleCard
     global currentCard
-    global cardImage
+    # global cardImage
+    global copyCardGrid
     global cards
+    
 
 
     cards = cardList
@@ -138,12 +147,6 @@ def clickSquare():
             # cardList.remove(shuffleCard)
             poppedCardList.append(currentCard)
             cardList.remove(shuffleCard)
-            if currentCard in newList:
-                image = pygame.image.load('assets/frijole.png')
-                imageSize = (75,75)
-                cardImage = pygame.transform.scale(image,imageSize)
-                screen.blit(cardImage,pygame.Vector2(10,450))
-                print('You have a match')
 
             
         else:
@@ -160,34 +163,27 @@ def clickSquare():
         # print('YOU MADE IT THIS FAR')
         screen.blit(cardImage,pygame.Vector2(900,10))
         print('the current card is: ' + currentCard)
-        if currentCard in newList:
-            image = pygame.image.load('assets/frijole.png')
-            imageSize = (75,75)
-            cardImage = pygame.transform.scale(image,imageSize)
-            screen.blit(cardImage,pygame.Vector2(10,450))
-
-
+        
 
 def populateCard():
+    global copyCardGrid
     #creates a 2d list with dimensions, rows and columns, initialized with zeros
     rows,columns = (4,4)
     cardGrid = [[0 for i in range(rows)]for j in range (columns)]
-
+    copyCardGrid = [[0 for i in range(rows)]for j in range (columns)]
     #iterate through the values and add them to the 2d grid
     # for i in range(len(loteriaDescList)):
-    for index, image in enumerate(newList):
+    for index, picture in enumerate(newList):
         #calculate the row and column
         row = index //columns# calculate the row index
         col = index % columns#calculate the column index
         #add the value to the position in the 2d grid/matrix
-        image = pygame.image.load(image)
+        image = pygame.image.load(picture)
         imageSize = (150,150)
         cardImage = pygame.transform.scale(image,imageSize)
         cardGrid[row][col] = cardImage
-        
-    
-    
-  
+        copyCardGrid[row][col] = picture
+
     row = 0
     while row <4:
         # for row in range(0,4):
@@ -198,6 +194,7 @@ def populateCard():
         row +=1
 
 
+    
 
 def drawGameGrid():
     background = 'black'
@@ -221,6 +218,7 @@ while running:
         drawCardRect()
         drawSecondCardRect()
         # addToSecondSquare()
+        drawBeanToScreen()
     else:
         drawText('Press space to pause',font,textColor,160,250)
 
@@ -243,8 +241,11 @@ while running:
                     if clicked:
                         clicked = False  
                         clickSquare()
+                # elif currentCard in newList:
+                #     drawBeanToScreen(event)
         elif event.type == pygame.QUIT:
             running = False
+
         # if event.type == pygame.MOUSEBUTTONDOWN:
         #     if event.button == 1:
         #         x,y = pygame.mouse.get_pos()
