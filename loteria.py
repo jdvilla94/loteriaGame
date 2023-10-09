@@ -40,16 +40,11 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
 poppedCardList = []
 copyCardGrid = []
 currentCardDict = {}
+dummyArray = [[0 for i in range(4)]for j in range (4)]
 
 currentCard = ''
 
 newList = random.sample(loteriaImageList,16)
-
-shuffleCard = ''
-# shuffleCard = random.choice(cardList)
-# print(shuffleCard)
-
-# print(newList)
 
 #set dimensions for window
 screenWidth = 1250
@@ -113,32 +108,49 @@ def drawBeanToScreen():
     global currentCard
     global cardList
     global copyCardGrid
-    rows,columns = (4,4)
 
     print('WE ARE IN THE DRAWBEAN DEF, THE LENGTH OF THE CARD LIST IS: '+str(len(cardList)))
-
-    
 
     for rowIndex,row in enumerate(copyCardGrid):
         for colIndex,element in enumerate(row):
             if element == currentCard:#if statemnet causing errors
                 currentCardDict[element] = rowIndex,colIndex
                 print(currentCardDict)
+                dummyArray[rowIndex][colIndex] = 1
 
-
-    
     for key, value in currentCardDict.items():
         image = pygame.image.load('assets/frijole.png')
         imageSize = (75,75)
         cardImage = pygame.transform.scale(image,imageSize)
         row,col = value
-        # print('The value is: ' + str(value))
-        screen.blit(cardImage,pygame.Vector2(col*195+33.5,row*195+30))
+        screen.blit(cardImage,pygame.Vector2(col*195+60,row*195+60))
+        checkWinner()
 
 
                 
 def checkWinner():
-    pass
+
+    # Calculate row sums
+    for row in dummyArray:
+        if sum(row) == 4:
+            print('YOU WON in row '+ str(row))
+        else:
+            print('WE HAVE NO MATCHES for row '+ str(row)) 
+
+    # Calculate column sums
+    num_columns = len(dummyArray[0])  # Assuming all rows have the same number of columns
+    for col in range(num_columns):
+        col_sum = sum(dummyArray[row][col] for row in range(len(dummyArray)))
+        if col_sum == 4:
+            print('YOU WON in column '+ str(col))
+        else:
+            print('WE HAVE NO MATCHES for column '+ str(col)) 
+
+    # for i in range(4):
+    #     for j in range(4):
+            
+        #     print(dummyArray,end='')
+        # print()
 
 def addToSecondSquare():
     for picture in poppedCardList:
@@ -159,13 +171,11 @@ def clickSquare():
     
     # print(copyCardGrid)
     if len(cardList)>0:
-        # shuffleCard = random.choice(cardList) 
         currentCard = random.choice(cardList) 
         print('the current card is: '+ currentCard)
         image = pygame.image.load(currentCard)
         imageSize = (300,300)
         cardImage = pygame.transform.scale(image,imageSize)
-            # print('YOU MADE IT THIS FAR')
         screen.blit(cardImage,pygame.Vector2(900,10))
         cardList.remove(currentCard)
         drawBeanToScreen()
@@ -173,8 +183,6 @@ def clickSquare():
                         
     else:
         print('There are no more cards in the deck')
-            # print('the lenght of popped list is: '+ str(len(poppedCardList)))
-            # print(poppedCardList)       
         
 def populateCard():
     global copyCardGrid
@@ -195,14 +203,10 @@ def populateCard():
         cardImage = pygame.transform.scale(image,imageSize)
         cardGrid[row][col] = cardImage
         copyCardGrid[row][col] = picture
-        # ourDict[picture] = (row,col)
 
 
-    # print(copyCardGrid,end= '')
-    # sum = 0
     row = 0
     while row <4:
-        # for row in range(0,4):
         column = 0
         while column <4:
             screen.blit(cardGrid[row][column],pygame.Vector2((column*195+33.5),(row*195+30)))
@@ -223,7 +227,6 @@ def drawGameGrid():
 running = True
 while running:
     #draw board
-    # drawGameGrid()
     if gameStart == True:
         drawGameGrid()
         populateCard()
@@ -258,9 +261,5 @@ while running:
                     clickSquare()
         
         pygame.display.update()
-
-       
-        # pygame.display.update()
-        # clock.tick(FPS)
         
 pygame.quit()
