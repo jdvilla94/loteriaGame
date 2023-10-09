@@ -1,9 +1,9 @@
 import pygame
 from pygame.locals import *
 import random
-import loteriaDictionary
 import time
 import sys
+
 
 pygame.init()
 
@@ -35,9 +35,13 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
                     'assets/elArpa.png','assets/laRana.png'
                     ]
 
+
+
 poppedCardList = []
 copyCardGrid = []
+currentCardDict = {}
 
+currentCard = ''
 
 newList = random.sample(loteriaImageList,16)
 
@@ -51,6 +55,7 @@ shuffleCard = ''
 screenWidth = 1250
 screenHeight = 1000
 
+
 #rects dimensions
 cardWidth = 300
 cardHeight = 300
@@ -59,6 +64,9 @@ cardY = 10
 card2x = 900
 card2y = 500
 recColor = 'white'
+
+clock = pygame.time.Clock()
+FPS = 120
 
 randY = random.randint(10,780)
 randX = random.randint(10,780)
@@ -99,19 +107,36 @@ def drawSecondCardRect():
     # pygame.draw.rect(screen,pygame.Color('white'),pygame.Rect(10,10,780,780),10)
     pygame.draw.rect(screen,recColor,rectangle,10)
 
+
+
 def drawBeanToScreen():
     global currentCard
+    global cardList
+    global copyCardGrid
+    rows,columns = (4,4)
+
+    print('WE ARE IN THE DRAWBEAN DEF, THE LENGTH OF THE CARD LIST IS: '+str(len(cardList)))
+
+    
+
     for rowIndex,row in enumerate(copyCardGrid):
         for colIndex,element in enumerate(row):
-            # print(element)
-            if currentCard == element:
-                # print('we have a match')
-                image = pygame.image.load('assets/frijole.png')
-                imageSize = (75,75)
-                cardImage = pygame.transform.scale(image,imageSize)
-                screen.blit(cardImage,pygame.Vector2(colIndex*195+33.5,rowIndex*195+30))
-            #     # pygame.display.update()
+            if element == currentCard:#if statemnet causing errors
+                currentCardDict[element] = rowIndex,colIndex
+                print(currentCardDict)
 
+
+    
+    for key, value in currentCardDict.items():
+        image = pygame.image.load('assets/frijole.png')
+        imageSize = (75,75)
+        cardImage = pygame.transform.scale(image,imageSize)
+        row,col = value
+        # print('The value is: ' + str(value))
+        screen.blit(cardImage,pygame.Vector2(col*195+33.5,row*195+30))
+
+
+                
 def checkWinner():
     pass
 
@@ -127,46 +152,33 @@ def clickSquare():
     global clicked
     global shuffleCard
     global currentCard
-    # global cardImage
     global copyCardGrid
-    global cards
+    global cardList
+ 
+   
     
-
-
-    cards = cardList
-    if clicked == True:
-        if len(cardList)>0:
-            shuffleCard = random.choice(cards)
-            currentCard = shuffleCard
-            image = pygame.image.load(currentCard)
-            imageSize = (300,300)
-            cardImage = pygame.transform.scale(image,imageSize)
-            # print('YOU MADE IT THIS FAR')
-            screen.blit(cardImage,pygame.Vector2(900,10))
-            # pygame.display.update()
-            # cardList.remove(shuffleCard)
-            poppedCardList.append(currentCard)
-            cardList.remove(shuffleCard)
-
-            
-        else:
-            print('There are no more cards in the deck')
-            print('the lenght of popped list is: '+ str(len(poppedCardList)))
-            # print(poppedCardList)   
-
-
-    else:
-        # print('the image should still be shown on the screen')
+    # print(copyCardGrid)
+    if len(cardList)>0:
+        # shuffleCard = random.choice(cardList) 
+        currentCard = random.choice(cardList) 
+        print('the current card is: '+ currentCard)
         image = pygame.image.load(currentCard)
         imageSize = (300,300)
         cardImage = pygame.transform.scale(image,imageSize)
-        # print('YOU MADE IT THIS FAR')
+            # print('YOU MADE IT THIS FAR')
         screen.blit(cardImage,pygame.Vector2(900,10))
-        print('the current card is: ' + currentCard)
+        cardList.remove(currentCard)
+        drawBeanToScreen()
+        # print('the length of the cardlist currently is: '+ str(len(cardList)))
+                        
+    else:
+        print('There are no more cards in the deck')
+            # print('the lenght of popped list is: '+ str(len(poppedCardList)))
+            # print(poppedCardList)       
         
-
 def populateCard():
     global copyCardGrid
+    global currentCard
     #creates a 2d list with dimensions, rows and columns, initialized with zeros
     rows,columns = (4,4)
     cardGrid = [[0 for i in range(rows)]for j in range (columns)]
@@ -183,7 +195,11 @@ def populateCard():
         cardImage = pygame.transform.scale(image,imageSize)
         cardGrid[row][col] = cardImage
         copyCardGrid[row][col] = picture
+        # ourDict[picture] = (row,col)
 
+
+    # print(copyCardGrid,end= '')
+    # sum = 0
     row = 0
     while row <4:
         # for row in range(0,4):
@@ -192,9 +208,6 @@ def populateCard():
             screen.blit(cardGrid[row][column],pygame.Vector2((column*195+33.5),(row*195+30)))
             column+=1
         row +=1
-
-
-    
 
 def drawGameGrid():
     background = 'black'
@@ -207,7 +220,6 @@ def drawGameGrid():
         pygame.draw.line(screen,grid,(x*195+10,10),(x*195+10,780),lineWidth)
 
 
-
 running = True
 while running:
     #draw board
@@ -218,48 +230,37 @@ while running:
         drawCardRect()
         drawSecondCardRect()
         # addToSecondSquare()
-        drawBeanToScreen()
     else:
-        drawText('Press space to pause',font,textColor,160,250)
+        drawText('Press space to begin',font,textColor,160,250)
 
     for event in pygame.event.get():
         pygame.event.set_blocked(pygame.MOUSEMOTION)
+        if event.type == pygame.QUIT:
+            running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 gameStart = True
+        
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                x,y = pygame.mouse.get_pos()
-                if 900 < x <1200 and 10<y<400:
-                    if not clicked:
-                        clicked = True
-                        clickSquare()
+                clicked=True
+                # x,y = pygame.mouse.get_pos()
+                # if 900 < x <1200 and 10<y<400:
+                if not clicked:
+                    clickSquare()
+                             
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                x,y = pygame.mouse.get_pos()
-                if 900 < x <1200 and 10<y<400:
-                    if clicked:
-                        clicked = False  
-                        clickSquare()
-                # elif currentCard in newList:
-                #     drawBeanToScreen(event)
-        elif event.type == pygame.QUIT:
-            running = False
-
-        # if event.type == pygame.MOUSEBUTTONDOWN:
-        #     if event.button == 1:
-        #         x,y = pygame.mouse.get_pos()
-        #         if 900 < x <1200 and 10<y<400:
-        #             if not clicked:
-        #                 clicked = True
-        #                 clickSquare()
-        # if event.type == pygame.MOUSEBUTTONUP:
-        #     if event.button == 1:
-        #         x,y = pygame.mouse.get_pos()
-        #         if 900 < x <1200 and 10<y<400:
-        #             if clicked:
-        #                 clicked = False
-        #                 clickSquare()
-
+                clicked = True  
+                # x,y = pygame.mouse.get_pos()
+                # if 900 < x <1200 and 10<y<400:
+                if clicked:
+                    clickSquare()
+        
         pygame.display.update()
+
+       
+        # pygame.display.update()
+        # clock.tick(FPS)
+        
 pygame.quit()
