@@ -3,6 +3,7 @@ from pygame.locals import *
 import random
 import time
 import sys
+import button
 
 
 pygame.init()
@@ -12,7 +13,7 @@ loteriaImageList = ['assets/elGallo.png','assets/elDiablito.png',
                     'assets/laSirena.png','assets/laEscalera.png','assets/laBotella.png',
                      'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png','assets/elValiente.png',
                      'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png','assets/elBandolon.png',
-                     'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laLuna.png',
+                     'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laBota.png','assets/laLuna.png',
                      'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorzaon.png','assets/laSandia.png',
                      'assets/elTambor.png','assets/elCameron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
                      'assets/laEstrella.png','assets/elCazo.png','assets/elMundo.png','assets/elApache.png','assets/elNopal.png','assets/elAlacran.png',
@@ -26,7 +27,7 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
                     'assets/laSirena.png','assets/laEscalera.png','assets/laBotella.png',
                      'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png','assets/elValiente.png',
                      'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png','assets/elBandolon.png',
-                     'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laLuna.png',
+                     'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laBota.png','assets/laLuna.png',
                      'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorzaon.png','assets/laSandia.png',
                      'assets/elTambor.png','assets/elCameron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
                      'assets/laEstrella.png','assets/elCazo.png','assets/elMundo.png','assets/elApache.png','assets/elNopal.png','assets/elAlacran.png',
@@ -35,7 +36,7 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
                     'assets/elArpa.png','assets/laRana.png'
                     ]
 
-
+print(len(cardList))
 
 poppedCardList = []
 copyCardGrid = []
@@ -71,7 +72,7 @@ pygame.display.set_caption('Loteria')
 
 
 #game variables
-gameStart = False
+# gameStart = False
 winner = 0
 clicked = False
 gameOver = False
@@ -133,7 +134,8 @@ def checkWinner():
     # Calculate row sums
     for row in dummyArray:
         if sum(row) == 4:
-            print('YOU WON in row '+ str(row))
+            # print('YOU WON in row '+ str(row))
+            drawWinner()
         else:
             print('WE HAVE NO MATCHES for row '+ str(row)) 
 
@@ -142,9 +144,14 @@ def checkWinner():
     for col in range(num_columns):
         col_sum = sum(dummyArray[row][col] for row in range(len(dummyArray)))
         if col_sum == 4:
-            print('YOU WON in column '+ str(col))
+            # print('YOU WON in column '+ str(col))
+            drawWinner()
         else:
             print('WE HAVE NO MATCHES for column '+ str(col)) 
+
+    if dummyArray[0][0] + dummyArray[1][1] + dummyArray[2][2] + dummyArray[3][3] == 4 or dummyArray[3][0] + dummyArray[1][2] + dummyArray[2][1] + dummyArray[3][0] == 4:
+        # print('YOU WON in the first diagnol')
+        drawWinner()
 
     # for i in range(4):
     #     for j in range(4):
@@ -224,42 +231,65 @@ def drawGameGrid():
         pygame.draw.line(screen,grid,(x*195+10,10),(x*195+10,780),lineWidth)
 
 
-running = True
-while running:
-    #draw board
-    if gameStart == True:
-        drawGameGrid()
-        populateCard()
-        drawCardRect()
-        drawSecondCardRect()
-        # addToSecondSquare()
-    else:
-        drawText('Press space to begin',font,textColor,160,250)
+def drawWinner():
+    while True:
+        screen.fill('black')
+        winnerText = 'You Won'
+        winnerImage = font.render(winnerText,True,'blue')
+        pygame.draw.rect(screen,'green',(screenWidth//2-100,screenHeight//2-60,200,50))
+        screen.blit(winnerImage,(screenWidth//2-100,screenHeight//2-50))
 
-    for event in pygame.event.get():
-        pygame.event.set_blocked(pygame.MOUSEMOTION)
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                gameStart = True
-        
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                clicked=True
-                # x,y = pygame.mouse.get_pos()
-                # if 900 < x <1200 and 10<y<400:
-                if not clicked:
-                    clickSquare()
-                             
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                clicked = True  
-                # x,y = pygame.mouse.get_pos()
-                # if 900 < x <1200 and 10<y<400:
-                if clicked:
-                    clickSquare()
-        
+        for event in pygame.event.get():
+            pygame.event.set_blocked(pygame.MOUSEMOTION)
+            if event.type == pygame.QUIT:
+                running = False
         pygame.display.update()
+
+    # playAgainText = 'Play Again'
+    # playAgainImage = font.render(playAgainText,True,'blue')
+    # pygame.draw.rect(screen,green,playAgainRect)
+    # screen.blit(playAgainImage,(screenWidth//2 - 80,screenHeight//2 + 10))
+
+def mainScreen():
+    gameStart = False
+    running = True
+    while running:
+        #draw board
+        if gameStart == True:
+            drawGameGrid()
+            populateCard()
+            drawCardRect()
+            drawSecondCardRect()
+            # addToSecondSquare()
+        else:
+            drawText('Press space to begin',font,textColor,160,250)
+
+        for event in pygame.event.get():
+            pygame.event.set_blocked(pygame.MOUSEMOTION)
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    gameStart = True
+            
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    clicked=True
+                    # x,y = pygame.mouse.get_pos()
+                    # if 900 < x <1200 and 10<y<400:
+                    if not clicked:
+                        clickSquare()
+                                
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    clicked = True  
+                    # x,y = pygame.mouse.get_pos()
+                    # if 900 < x <1200 and 10<y<400:
+                    if clicked:
+                        clickSquare()
+            
+            pygame.display.update()
+
+mainScreen()
         
-pygame.quit()
