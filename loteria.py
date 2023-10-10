@@ -3,7 +3,9 @@ from pygame.locals import *
 import random
 import time
 import sys
-import button
+from button import Button
+
+
 
 
 pygame.init()
@@ -36,9 +38,8 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
                     'assets/elArpa.png','assets/laRana.png'
                     ]
 
-print(len(cardList))
+# poppedCardList = []
 
-poppedCardList = []
 copyCardGrid = []
 currentCardDict = {}
 dummyArray = [[0 for i in range(4)]for j in range (4)]
@@ -110,7 +111,7 @@ def drawBeanToScreen():
     global cardList
     global copyCardGrid
 
-    print('WE ARE IN THE DRAWBEAN DEF, THE LENGTH OF THE CARD LIST IS: '+str(len(cardList)))
+    # print('WE ARE IN THE DRAWBEAN DEF, THE LENGTH OF THE CARD LIST IS: '+str(len(cardList)))
 
     for rowIndex,row in enumerate(copyCardGrid):
         for colIndex,element in enumerate(row):
@@ -153,18 +154,12 @@ def checkWinner():
         # print('YOU WON in the first diagnol')
         drawWinner()
 
-    # for i in range(4):
-    #     for j in range(4):
-            
-        #     print(dummyArray,end='')
-        # print()
-
-def addToSecondSquare():
-    for picture in poppedCardList:
-        image = pygame.image.load(picture)
-        imageSize = (300,300)
-        cardImage = pygame.transform.scale(image,imageSize)
-        screen.blit(cardImage,pygame.Vector2(900,500))
+# def addToSecondSquare():
+#     for picture in poppedCardList:
+#         image = pygame.image.load(picture)
+#         imageSize = (300,300)
+#         cardImage = pygame.transform.scale(image,imageSize)
+#         screen.blit(cardImage,pygame.Vector2(900,500))
 
 def clickSquare():
     # print(f"Clicked on cell({row},{column})")
@@ -174,7 +169,6 @@ def clickSquare():
     global copyCardGrid
     global cardList
  
-   
     
     # print(copyCardGrid)
     if len(cardList)>0:
@@ -230,66 +224,145 @@ def drawGameGrid():
         pygame.draw.line(screen,grid,(10,x*195+10),(780,x*195+10),lineWidth)
         pygame.draw.line(screen,grid,(x*195+10,10),(x*195+10,780),lineWidth)
 
+def get_font(size): # Returns Press-Start-2P in the desired size
+    return pygame.font.SysFont('arialBlack', size)
 
 def drawWinner():
+    global dummyArray 
+    global cardList
+    global loteriaImageList
+    global newList
+    
     while True:
+        mousePos = pygame.mouse.get_pos()
+
         screen.fill('black')
+
         winnerText = 'You Won'
-        winnerImage = font.render(winnerText,True,'blue')
-        pygame.draw.rect(screen,'green',(screenWidth//2-100,screenHeight//2-60,200,50))
-        screen.blit(winnerImage,(screenWidth//2-100,screenHeight//2-50))
+        winnerImage = font.render(winnerText,True,'white')
+        winnerRect = winnerImage.get_rect(center=(640,260))
+        screen.blit(winnerImage,winnerRect)
+
+        playAgain = Button(image= None,pos=(625,500),text_input='Play Again',font= get_font(75),base_color='white',hovering_color='blue')
+        playAgain.changeColor(mousePos)
+        playAgain.update(screen)
 
         for event in pygame.event.get():
-            pygame.event.set_blocked(pygame.MOUSEMOTION)
             if event.type == pygame.QUIT:
-                running = False
-        pygame.display.update()
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if playAgain.checkForInput(mousePos):
+                    dummyArray = [[0 for i in range(4)]for j in range (4)]
+                    cardList = loteriaImageList
+                    currentCardDict.clear()
+                    newList = random.sample(loteriaImageList,16)
+                    print('the new list is": '+ str(newList))
+                    play()
+                    
 
-    # playAgainText = 'Play Again'
-    # playAgainImage = font.render(playAgainText,True,'blue')
-    # pygame.draw.rect(screen,green,playAgainRect)
-    # screen.blit(playAgainImage,(screenWidth//2 - 80,screenHeight//2 + 10))
+            pygame.display.update()
+
+
+# Initialize a variable to store the entered text
+entered_text = ""
+
+# def toTextInput():
+
 
 def mainScreen():
     gameStart = False
-    running = True
-    while running:
+    # running = True
+    while True:
         #draw board
-        if gameStart == True:
-            drawGameGrid()
-            populateCard()
-            drawCardRect()
-            drawSecondCardRect()
+        # if gameStart == True:
+        #     drawGameGrid()
+        #     populateCard()
+        #     drawCardRect()
+        #     drawSecondCardRect()
             # addToSecondSquare()
-        else:
-            drawText('Press space to begin',font,textColor,160,250)
+        # else:
+        #     drawText('Press space to begin',font,textColor,160,250)
+
+        screen.fill('black')
+        mousePos = pygame.mouse.get_pos()
+        menuText = get_font(100).render('MAIN MENU',True,'white')
+        menuRect = menuText.get_rect(center=(640,100))
+
+        playButton = Button(image=None,pos=(640,250),text_input='PLAY',font=get_font(75),base_color='white',hovering_color='blue')
+        exitButton = Button(image=None,pos=(640,400),text_input='EXIT',font=get_font(75),base_color='white',hovering_color='blue')
+
+
+        screen.blit(menuText,menuRect)
+
+        for button in [playButton,exitButton]:
+            button.changeColor(mousePos)
+            button.update(screen)
 
         for event in pygame.event.get():
-            pygame.event.set_blocked(pygame.MOUSEMOTION)
+            # pygame.event.set_blocked(pygame.MOUSEMOTION)
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    gameStart = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if playButton.checkForInput(mousePos):
+                    play()
+            if event.type == pygame.MOUSEBUTTONUP:
+                if playButton.checkForInput(mousePos):
+                    play()
+                if exitButton.checkForInput(mousePos):
+                    pygame.quit()
+            # if event.type == pygame.KEYDOWN:
+            #     if event.key == pygame.K_SPACE:
+            #         gameStart = True
             
+            # elif event.type == pygame.MOUSEBUTTONDOWN:
+            #     if event.button == 1:
+            #         clicked=True
+            #         # x,y = pygame.mouse.get_pos()
+            #         # if 900 < x <1200 and 10<y<400:
+            #         if not clicked:
+            #             clickSquare()
+                                
+            # elif event.type == pygame.MOUSEBUTTONUP:
+            #     if event.button == 1:
+            #         clicked = True  
+            #         # x,y = pygame.mouse.get_pos()
+            #         # if 900 < x <1200 and 10<y<400:
+            #         if clicked:
+            #             clickSquare()
+            
+        pygame.display.update()
+
+def play():
+    while True:
+        drawGameGrid()
+        populateCard()
+        drawCardRect()
+        # drawSecondCardRect()
+        pygame.event.set_blocked(pygame.MOUSEMOTION)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     clicked=True
-                    # x,y = pygame.mouse.get_pos()
-                    # if 900 < x <1200 and 10<y<400:
+                        # x,y = pygame.mouse.get_pos()
+                        # if 900 < x <1200 and 10<y<400:
                     if not clicked:
                         clickSquare()
-                                
+                                    
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     clicked = True  
-                    # x,y = pygame.mouse.get_pos()
-                    # if 900 < x <1200 and 10<y<400:
+                        # x,y = pygame.mouse.get_pos()
+                        # if 900 < x <1200 and 10<y<400:
                     if clicked:
                         clickSquare()
+
             
+
             pygame.display.update()
+
 
 mainScreen()
         
