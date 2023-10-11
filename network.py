@@ -26,9 +26,9 @@ class Network:
         except socket.error as e:
             print(e)
 
-n = Network()
-print(n.send('HELLO'))
-print(n.send('WORKING'))
+# n = Network()
+# print(n.send('HELLO'))
+# print(n.send('WORKING'))
 
 
 

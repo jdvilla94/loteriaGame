@@ -262,12 +262,12 @@ def drawWinner():
         pygame.display.update()
 
 def toTextInput():
-    active = False
-    colorActive = 'red'
-    colorPassive = 'blue'
-    color = colorPassive
-
+    n = Network()
     global userInput
+    # active = False
+    # colorActive = 'red'
+    # colorPassive = 'blue'
+    # color = colorPassive
     while True:
 
         screen.fill('black')
@@ -303,6 +303,7 @@ def toTextInput():
                 #unicode standard is used for string formation    
                 else:
                     userInput += event.unicode
+                    # print(n.send(userInput))
 
 
         # if active:
@@ -317,15 +318,23 @@ def toTextInput():
 
         #display to screen
         screen.blit(textSurface,(rect.x+5,rect.y+5))
+        
 
         # rect.w = max(300,textSurface.get_width()+10)
 
         pygame.display.flip()
 
+def readCard(card):
+    pass
 
 def mainScreen():
     gameStart = False
+    
+    global userInput
+    
     while True:
+        
+        
         screen.fill('black')
         mousePos = pygame.mouse.get_pos()
         menuText = get_font(100).render('MAIN MENU',True,'white')
@@ -358,7 +367,9 @@ def mainScreen():
                 if exitButton.checkForInput(mousePos):
                     pygame.quit()
             
+        
         pygame.display.update()
+        
 
 def play():
     global userInput

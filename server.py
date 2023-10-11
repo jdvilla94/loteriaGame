@@ -21,16 +21,18 @@ except socket.error as e:
 s.listen(2)#only allow two e
 print('Waiting for a connection, Server Started')
 
+
 #runs in background, doesnt have to wait to finish executing
 def threadedClient(conn):
     #see if we indeed connected, proof and validation
     conn.send(str.encode('connected'))
+    # conn.send(str.encode(userName))
     #keep running while client connected
     reply = ''
     while True:
         try:
             data = conn.recv(2048)#amount of bits, if you get errors increase size...the larger the size the longer it takes to recieve information
-            reply = data.decode('utf-8')#encode the information\
+            # reply = data.decode('utf-8')#encode the information\
             if not data:
                 #if somenone left or what not, we leave
                 print('Disconnected')
@@ -53,3 +55,4 @@ while True:
 
     #runs this function, does not need threaded client to finish, just adds another thread or process in the background
     start_new_thread(threadedClient,(conn,))
+    # currentPlayer +=1
