@@ -4,6 +4,7 @@ import random
 import time
 import sys
 from button import Button
+from network import Network
 
 
 
@@ -304,24 +305,22 @@ def toTextInput():
                     userInput += event.unicode
 
 
-        if active:
-            color = colorActive
-        else:
-            color = colorPassive
+        # if active:
+        #     color = colorActive
+        # else:
+        #     color = colorPassive
         
         #create a rectangle
-        pygame.draw.rect(screen,'white',rect)
+        pygame.draw.rect(screen,'white',rect,2,3)
 
-        textSurface = get_font(50).render(userInput,True,'black')
+        textSurface = get_font(50).render(userInput,True,'white')
 
-        
-        
         #display to screen
         screen.blit(textSurface,(rect.x+5,rect.y+5))
 
-        rect.w = max(100,textSurface.get_width()+10)
+        # rect.w = max(300,textSurface.get_width()+10)
 
-        pygame.display.update()
+        pygame.display.flip()
 
 
 def mainScreen():
