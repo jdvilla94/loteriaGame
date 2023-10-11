@@ -243,7 +243,7 @@ def drawWinner():
 
         screen.fill('black')
 
-        winnerText = userInput.capitalize +' YOU WON'
+        winnerText = userInput.upper() +' YOU WON'
         winnerImage = font.render(winnerText,True,'white')
         winnerRect = winnerImage.get_rect(center=(640,260))
         screen.blit(winnerImage,winnerRect)
