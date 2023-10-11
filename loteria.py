@@ -46,6 +46,8 @@ dummyArray = [[0 for i in range(4)]for j in range (4)]
 
 currentCard = ''
 
+userInput = ''
+
 newList = random.sample(loteriaImageList,16)
 
 #set dimensions for window
@@ -78,6 +80,8 @@ winner = 0
 clicked = False
 gameOver = False
 currentCard = ''
+# Initialize a variable to store the entered text
+username = ''
 
 #define Fonts
 font = pygame.font.SysFont('arialBlack',40)
@@ -259,19 +263,74 @@ def drawWinner():
                     print('the new list is": '+ str(newList))
                     play()
                     
+        pygame.display.update()
 
-            pygame.display.update()
+def toTextInput():
+    active = False
+    colorActive = 'red'
+    colorPassive = 'blue'
+    color = colorPassive
+
+    global userInput
+    while True:
+
+        screen.fill('black')
+        mousePos = pygame.mouse.get_pos()
+        header = get_font(100).render('ENTER USER NAME',True,'white')
+        headerRect = header.get_rect(center=(640,75))
+        screen.blit(header,headerRect)
+
+        rect = pygame.Rect(500,250,300,100)
 
 
-# Initialize a variable to store the entered text
-entered_text = ""
+        submitButton = Button(image=None,pos=(640,550),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
+        submitButton.changeColor(mousePos)
+        submitButton.update(screen)
 
-# def toTextInput():
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if submitButton.checkForInput(mousePos):
+                    if len(userInput) > 4:
+                        play()
+                    else:
+                        print('YOU NEED TO TYPE A LONGER NAME')
+                if rect.collidepoint(event.pos):
+                    active = True
+                else:
+                    active = False
+            if event.type == pygame.KEYDOWN:
+                #check for backspace
+                if event.key == pygame.K_BACKSPACE:
+                    userInput = userInput[:-1]
+                #unicode standard is used for string formation    
+                else:
+                    userInput += event.unicode
+
+
+        if active:
+            color = colorActive
+        else:
+            color = colorPassive
+        
+        #create a rectangle
+        pygame.draw.rect(screen,'white',rect)
+
+        textSurface = get_font(50).render(userInput,True,'black')
+
+        
+        
+        #display to screen
+        screen.blit(textSurface,(rect.x+5,rect.y+5))
+
+        rect.w = max(100,textSurface.get_width()+10)
+
+        pygame.display.update()
 
 
 def mainScreen():
     gameStart = False
-    # running = True
     while True:
         #draw board
         # if gameStart == True:
@@ -305,10 +364,13 @@ def mainScreen():
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if playButton.checkForInput(mousePos):
-                    play()
+                    toTextInput(
+                        # play()
+                    )
             if event.type == pygame.MOUSEBUTTONUP:
                 if playButton.checkForInput(mousePos):
-                    play()
+                    toTextInput()
+                    # play()
                 if exitButton.checkForInput(mousePos):
                     pygame.quit()
             # if event.type == pygame.KEYDOWN:
@@ -334,6 +396,8 @@ def mainScreen():
         pygame.display.update()
 
 def play():
+    global userInput
+    pygame.display.set_caption(userInput+' is playing Loteria!')
     while True:
         drawGameGrid()
         populateCard()
