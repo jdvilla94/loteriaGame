@@ -75,7 +75,6 @@ pygame.display.set_caption('Loteria')
 
 
 #game variables
-# gameStart = False
 winner = 0
 clicked = False
 gameOver = False
@@ -109,13 +108,10 @@ def drawSecondCardRect():
     pygame.draw.rect(screen,recColor,rectangle,10)
 
 
-
 def drawBeanToScreen():
     global currentCard
     global cardList
     global copyCardGrid
-
-    # print('WE ARE IN THE DRAWBEAN DEF, THE LENGTH OF THE CARD LIST IS: '+str(len(cardList)))
 
     for rowIndex,row in enumerate(copyCardGrid):
         for colIndex,element in enumerate(row):
@@ -131,8 +127,6 @@ def drawBeanToScreen():
         row,col = value
         screen.blit(cardImage,pygame.Vector2(col*195+60,row*195+60))
         checkWinner()
-
-
                 
 def checkWinner():
 
@@ -333,16 +327,6 @@ def toTextInput():
 def mainScreen():
     gameStart = False
     while True:
-        #draw board
-        # if gameStart == True:
-        #     drawGameGrid()
-        #     populateCard()
-        #     drawCardRect()
-        #     drawSecondCardRect()
-            # addToSecondSquare()
-        # else:
-        #     drawText('Press space to begin',font,textColor,160,250)
-
         screen.fill('black')
         mousePos = pygame.mouse.get_pos()
         menuText = get_font(100).render('MAIN MENU',True,'white')
@@ -374,25 +358,6 @@ def mainScreen():
                     # play()
                 if exitButton.checkForInput(mousePos):
                     pygame.quit()
-            # if event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_SPACE:
-            #         gameStart = True
-            
-            # elif event.type == pygame.MOUSEBUTTONDOWN:
-            #     if event.button == 1:
-            #         clicked=True
-            #         # x,y = pygame.mouse.get_pos()
-            #         # if 900 < x <1200 and 10<y<400:
-            #         if not clicked:
-            #             clickSquare()
-                                
-            # elif event.type == pygame.MOUSEBUTTONUP:
-            #     if event.button == 1:
-            #         clicked = True  
-            #         # x,y = pygame.mouse.get_pos()
-            #         # if 900 < x <1200 and 10<y<400:
-            #         if clicked:
-            #             clickSquare()
             
         pygame.display.update()
 
@@ -423,8 +388,6 @@ def play():
                         # if 900 < x <1200 and 10<y<400:
                     if clicked:
                         clickSquare()
-
-            
 
             pygame.display.update()
 
