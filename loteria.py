@@ -236,13 +236,14 @@ def drawWinner():
     global cardList
     global loteriaImageList
     global newList
+    global userInput
     
     while True:
         mousePos = pygame.mouse.get_pos()
 
         screen.fill('black')
 
-        winnerText = 'You Won'
+        winnerText = userInput.capitalize +' YOU WON'
         winnerImage = font.render(winnerText,True,'white')
         winnerRect = winnerImage.get_rect(center=(640,260))
         screen.blit(winnerImage,winnerRect)
