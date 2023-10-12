@@ -269,7 +269,7 @@ def toTextInput():
     # colorPassive = 'blue'
     # color = colorPassive
     while True:
-
+        
         screen.fill('black')
         mousePos = pygame.mouse.get_pos()
         header = get_font(100).render('ENTER USER NAME',True,'white')
@@ -300,14 +300,15 @@ def toTextInput():
                 #check for backspace
                 if event.key == pygame.K_BACKSPACE:
                     userInput = userInput[:-1]
-                #unicode standard is used for string formation    
+                #unicode standard is used for string formation   
                 else:
                     userInput += event.unicode
                     # print(n.send(userInput))
+                    n.send(userInput)
 
 
         # if active:
-        #     color = colorActive
+        #     color = colorActiveo
         # else:
         #     color = colorPassive
         

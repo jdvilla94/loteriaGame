@@ -7,10 +7,8 @@ class Network:
         self.server = '10.45.8.133'
         self.port = 5555
         self.addr = (self.server,self.port)
-        self.pos = self.connect()
-
-    def getPos(self):
-        return self.pos
+        self.id = self.connect()
+        print(self.id)
 
     def connect(self):
         try:
@@ -25,6 +23,7 @@ class Network:
             return self.client.recv(2048).decode()
         except socket.error as e:
             print(e)
+
 
 # n = Network()
 # print(n.send('HELLO'))

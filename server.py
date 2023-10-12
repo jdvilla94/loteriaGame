@@ -32,7 +32,8 @@ def threadedClient(conn):
     while True:
         try:
             data = conn.recv(2048)#amount of bits, if you get errors increase size...the larger the size the longer it takes to recieve information
-            # reply = data.decode('utf-8')#encode the information\
+            reply = data.decode('utf-8')#encode the information
+
             if not data:
                 #if somenone left or what not, we leave
                 print('Disconnected')
