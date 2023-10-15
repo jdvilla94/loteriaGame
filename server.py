@@ -3,7 +3,9 @@ from _thread import*
 import sys
 
 
-server = '10.45.8.133'
+# server = '10.45.8.133'
+server = '192.168.0.15'
+# server = '192.168.0.1'
 #typically open port, depends on router
 port = 5555
 
@@ -26,12 +28,15 @@ print('Waiting for a connection, Server Started')
 def threadedClient(conn):
     #see if we indeed connected, proof and validation
     conn.send(str.encode('connected'))
+    # conn.send(username.encode())
+    # conn.send(str.encode(username))
     # conn.send(str.encode(userName))
     #keep running while client connected
     reply = ''
     while True:
         try:
             data = conn.recv(2048)#amount of bits, if you get errors increase size...the larger the size the longer it takes to recieve information
+            # username = data
             reply = data.decode('utf-8')#encode the information
 
             if not data:
@@ -39,6 +44,7 @@ def threadedClient(conn):
                 print('Disconnected')
                 break
             else:
+                # print('Recieved: ',data)
                 print('Recieved: ',reply)
                 print('Sending: ',reply)
             
@@ -49,6 +55,7 @@ def threadedClient(conn):
     print('Lost Connection')
     conn.close()
 
+# currentPlayer = 0
 #continously looking for connections, see if someone connects, and start a new thread or send certain information
 while True:
     conn,addr = s.accept()

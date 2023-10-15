@@ -304,7 +304,7 @@ def toTextInput():
                 else:
                     userInput += event.unicode
                     # print(n.send(userInput))
-                    n.send(userInput)
+                n.send(userInput)
 
 
         # if active:
@@ -358,9 +358,9 @@ def mainScreen():
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if playButton.checkForInput(mousePos):
-                    toTextInput(
+                    toTextInput()
                         # play()
-                    )
+                    
             if event.type == pygame.MOUSEBUTTONUP:
                 if playButton.checkForInput(mousePos):
                     toTextInput()
@@ -379,7 +379,7 @@ def play():
         drawGameGrid()
         populateCard()
         drawCardRect()
-        # drawSecondCardRect()
+        drawSecondCardRect()
         pygame.event.set_blocked(pygame.MOUSEMOTION)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
