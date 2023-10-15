@@ -1,12 +1,13 @@
 import socket
 from _thread import*
 import sys
+import pickle
 
 
-# server = '10.45.8.133'
+# # server = '10.45.8.133'
 server = '192.168.0.15'
-# server = '192.168.0.1'
-#typically open port, depends on router
+# # server = '192.168.0.1'
+# #typically open port, depends on router
 port = 5555
 
 #sockets just looks for connections essentially
@@ -24,14 +25,14 @@ s.listen(2)#only allow two e
 print('Waiting for a connection, Server Started')
 
 
-#runs in background, doesnt have to wait to finish executing
+# #runs in background, doesnt have to wait to finish executing
 def threadedClient(conn):
-    #see if we indeed connected, proof and validation
+#     #see if we indeed connected, proof and validation
     conn.send(str.encode('connected'))
-    # conn.send(username.encode())
-    # conn.send(str.encode(username))
-    # conn.send(str.encode(userName))
-    #keep running while client connected
+#     # conn.send(username.encode())
+#     # conn.send(str.encode(username))
+#     # conn.send(str.encode(userName))
+#     #keep running while client connected
     reply = ''
     while True:
         try:
