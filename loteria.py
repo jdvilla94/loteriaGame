@@ -9,6 +9,7 @@ from network import Network
 
 
 
+
 pygame.init()
 
 loteriaImageList = ['assets/elGallo.png','assets/elDiablito.png',
@@ -65,8 +66,8 @@ card2x = 900
 card2y = 500
 recColor = 'white'
 
-clock = pygame.time.Clock()
-FPS = 120
+
+
 
 randY = random.randint(10,780)
 randX = random.randint(10,780)
@@ -91,8 +92,6 @@ textColor = 'white'
 
 #define variables
 lineWidth = 10
-player = 1
-
 
 def drawText(text,font,textColor,x,y):
     img = font.render(text,True,textColor)
@@ -262,7 +261,7 @@ def drawWinner():
         pygame.display.update()
 
 def toTextInput():
-    n = Network()
+    # n = Network()
     global userInput
     # active = False
     # colorActive = 'red'
@@ -304,7 +303,7 @@ def toTextInput():
                 else:
                     userInput += event.unicode
                     # print(n.send(userInput))
-                n.send(userInput)
+                # n.send(userInput)
 
 
         # if active:
@@ -329,13 +328,30 @@ def readCard(card):
     pass
 
 def mainScreen():
+    run = True
     gameStart = False
+    clock = pygame.time.Clock()
+    n = Network()
+    player = int(n.getP())
+    print('You are player', player)
     
-    global userInput
-    
-    while True:
-        
-        
+    while run:
+        clock.tick(60)
+        try:
+            game = n.send('get')
+        except:
+            run = False
+            print('Coudlnt get game') 
+            break  
+            
+        # if ():
+        #     pygame.time.delay(200)
+        #     try:
+        #         game = n.send('reset')
+        #     except:
+        #         run = False
+        #         print('Couldnt get game')
+        #         break
         screen.fill('black')
         mousePos = pygame.mouse.get_pos()
         menuText = get_font(100).render('MAIN MENU',True,'white')
@@ -344,7 +360,6 @@ def mainScreen():
         playButton = Button(image=None,pos=(640,250),text_input='PLAY',font=get_font(75),base_color='white',hovering_color='blue')
         exitButton = Button(image=None,pos=(640,400),text_input='EXIT',font=get_font(75),base_color='white',hovering_color='blue')
 
-
         screen.blit(menuText,menuRect)
 
         for button in [playButton,exitButton]:
@@ -352,24 +367,25 @@ def mainScreen():
             button.update(screen)
 
         for event in pygame.event.get():
-            # pygame.event.set_blocked(pygame.MOUSEMOTION)
+                # pygame.event.set_blocked(pygame.MOUSEMOTION)
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if playButton.checkForInput(mousePos):
                     toTextInput()
-                        # play()
-                    
+                            # play()
+                        
             if event.type == pygame.MOUSEBUTTONUP:
                 if playButton.checkForInput(mousePos):
                     toTextInput()
-                    # play()
+                        # play()
                 if exitButton.checkForInput(mousePos):
                     pygame.quit()
-            
-        
         pygame.display.update()
+                
+
+        # pygame.display.update()
         
 
 def play():
@@ -380,27 +396,33 @@ def play():
         populateCard()
         drawCardRect()
         drawSecondCardRect()
+
         pygame.event.set_blocked(pygame.MOUSEMOTION)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    clicked=True
-                        # x,y = pygame.mouse.get_pos()
-                        # if 900 < x <1200 and 10<y<400:
-                    if not clicked:
-                        clickSquare()
+        #below we get mouse input, but we dont need it now
+            # elif event.type == pygame.MOUSEBUTTONDOWN:
+            #     if event.button == 1:
+            #         clicked=True
+            #             # x,y = pygame.mouse.get_pos()
+            #             # if 900 < x <1200 and 10<y<400:
+            #         if not clicked:
+            #             clickSquare()
                                     
-            elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button == 1:
-                    clicked = True  
-                        # x,y = pygame.mouse.get_pos()
-                        # if 900 < x <1200 and 10<y<400:
-                    if clicked:
-                        clickSquare()
-
-            pygame.display.update()
+            # elif event.type == pygame.MOUSEBUTTONUP:
+            #     if event.button == 1:
+            #         clicked = True  
+            #             # x,y = pygame.mouse.get_pos()
+            #             # if 900 < x <1200 and 10<y<400:
+            #         if clicked:
+            #             clickSquare()
+        #instead we call the function, and add a delay so it goes througth the cards manually
+        clickSquare() 
+        pygame.display.update()   
+        pygame.time.delay(3000)
+        
+        
 
 
 mainScreen()
