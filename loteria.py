@@ -11,6 +11,8 @@ from network import Network
 
 
 pygame.init()
+pygame.mixer.init()
+
 
 loteriaImageList = ['assets/elGallo.png','assets/elDiablito.png',
                      'assets/laDama.png','assets/elCatrin.png','assets/elParaguas.png',
@@ -18,8 +20,8 @@ loteriaImageList = ['assets/elGallo.png','assets/elDiablito.png',
                      'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png','assets/elValiente.png',
                      'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png','assets/elBandolon.png',
                      'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laBota.png','assets/laLuna.png',
-                     'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorzaon.png','assets/laSandia.png',
-                     'assets/elTambor.png','assets/elCameron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
+                     'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorazon.png','assets/laSandia.png',
+                     'assets/elTambor.png','assets/elCamaron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
                      'assets/laEstrella.png','assets/elCazo.png','assets/elMundo.png','assets/elApache.png','assets/elNopal.png','assets/elAlacran.png',
                     'assets/laRosa.png','assets/laCalavera.png','assets/laCampana.png','assets/elCantarito.png','assets/elVenado.png','assets/elSol.png',
                     'assets/laCorona.png','assets/laChalupa.png','assets/elPino.png','assets/elPescado.png','assets/laPalma.png','assets/laMaceta.png',
@@ -32,13 +34,27 @@ cardList =          ['assets/elGallo.png','assets/elDiablito.png',
                      'assets/elBarril.png','assets/elArbol.png','assets/elMelon.png','assets/elValiente.png',
                      'assets/elGorrito.png','assets/laMuerte.png','assets/laPera.png','assets/laBandera.png','assets/elBandolon.png',
                      'assets/elVioloncello.png','assets/laGarza.png','assets/elPajaro.png','assets/laMano.png','assets/laBota.png','assets/laLuna.png',
-                     'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorzaon.png','assets/laSandia.png',
-                     'assets/elTambor.png','assets/elCameron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
+                     'assets/elCotorro.png','assets/elBorracho.png','assets/elNegrito.png','assets/elCorazon.png','assets/laSandia.png',
+                     'assets/elTambor.png','assets/elCamaron.png','assets/lasJaras.png','assets/elMusico.png','assets/laArana.png','assets/elSoldado.png',
                      'assets/laEstrella.png','assets/elCazo.png','assets/elMundo.png','assets/elApache.png','assets/elNopal.png','assets/elAlacran.png',
                     'assets/laRosa.png','assets/laCalavera.png','assets/laCampana.png','assets/elCantarito.png','assets/elVenado.png','assets/elSol.png',
                     'assets/laCorona.png','assets/laChalupa.png','assets/elPino.png','assets/elPescado.png','assets/laPalma.png','assets/laMaceta.png',
                     'assets/elArpa.png','assets/laRana.png'
                     ]
+
+assetCardDict =          {'assets/elGallo.png':'audio/elGallo.mp3','assets/elDiablito.png':'audio/elDiablito.mp3',
+                     'assets/laDama.png':'audio/laDama.mp3','assets/elCatrin.png':'audio/elCatrin.mp3','assets/elParaguas.png':'audio/elParaguas.mp3',
+                    'assets/laSirena.png':'audio/laSirena.mp3','assets/laEscalera.png':'audio/laEscalera.mp3','assets/laBotella.png':'audio/laBotella.mp3',
+                     'assets/elBarril.png':'audio/elBarril.mp3','assets/elArbol.png':'audio/elArbol.mp3','assets/elMelon.png':'audio/elMelon.mp3','assets/elValiente.png':'audio/elValiente.mp3',
+                     'assets/elGorrito.png':'audio/elGorrito.mp3','assets/laMuerte.png':'audio/laMuerte.mp3','assets/laPera.png':'audio/laPera.mp3','assets/laBandera.png':'audio/laBandera.mp3','assets/elBandolon.png':'audio/elBandalon.mp3',
+                     'assets/elVioloncello.png':'audio/elVioloncello.mp3','assets/laGarza.png':'audio/laGarza.mp3','assets/elPajaro.png':'audio/elPajaro.mp3','assets/laMano.png':'audio/laMano.mp3','assets/laBota.png':'audio/laBota.mp3','assets/laLuna.png':'audio/laLuna.mp3',
+                     'assets/elCotorro.png':'audio/elCotorro.mp3','assets/elBorracho.png':'audio/elBorracho.mp3','assets/elNegrito.png':'audio/elNegrito.mp3','assets/elCorazon.png':'audio/elCorazon.mp3','assets/laSandia.png':'audio/laSandia.mp3',
+                     'assets/elTambor.png':'audio/elTambor.mp3','assets/elCamaron.png':'audio/elCamaron.mp3','assets/lasJaras.png':'audio/lasJaras.mp3','assets/elMusico.png':'audio/elMusico.mp3','assets/laArana.png':'audio/laArana.mp3','assets/elSoldado.png':'audio/elSoldado.mp3',
+                     'assets/laEstrella.png':'audio/laEstrella.mp3','assets/elCazo.png':'audio/elCazo.mp3','assets/elMundo.png':'audio/elMundo.mp3','assets/elApache.png':'audio/elApache.mp3','assets/elNopal.png':'audio/elNopal.mp3','assets/elAlacran.png':'audio/elAlacran.mp3',
+                    'assets/laRosa.png':'audio/laRosa.mov','assets/laCalavera.png':'audio/laCalavera.mp3','assets/laCampana.png':'audio/laCampana.mp3','assets/elCantarito.png':'audio/elCantarito.mp3','assets/elVenado.png':'audio/elVenado.mp3','assets/elSol.png':'audio/elSol.mp3',
+                    'assets/laCorona.png':'audio/laCorona.mp3','assets/laChalupa.png':'audio/laChalupa.mp3','assets/elPino.png':'audio/elPino.mp3','assets/elPescado.png':'audio/elPescado.mp3','assets/laPalma.png':'audio/laPalma.mp3','assets/laMaceta.png':'audio/laMaceta.mp3',
+                    'assets/elArpa.png':'audio/elArpa.mp3','assets/laRana.png':'audio/laRana.mp3'
+                    }
 
 # poppedCardList = []
 
@@ -170,7 +186,14 @@ def clickSquare():
     
     # print(copyCardGrid)
     if len(cardList)>0:
-        currentCard = random.choice(cardList) 
+        currentCard = random.choice(cardList)
+        value = assetCardDict.get(currentCard)
+        # print(value)
+        pygame.mixer.music.load(value)
+        pygame.mixer.music.play()
+        # sound = pygame.mixer.music.load(value)
+        # sound = pygame.mixer.Sound(value)
+        # sound.play()
         print('the current card is: '+ currentCard)
         image = pygame.image.load(currentCard)
         imageSize = (300,300)
