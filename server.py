@@ -5,7 +5,7 @@ import pickle
 from loteriaGame import Game
 
 
-# # server = '10.45.8.133'
+# server = '10.45.8.133'
 server = '192.168.0.15'
 # # server = '192.168.0.1'
 # #typically open port, depends on router
@@ -56,7 +56,7 @@ def theadedClient(conn,gameId,p):
                     elif data != 'get':
                         game.play(p,data)
 
-                    # reply = game
+                    reply = game
                     conn.sendall(pickle.dumps(reply))
 
             else:
