@@ -171,12 +171,12 @@ def checkWinner():
         pygame.time.delay(1000)
         drawWinner()
 
-def addToSecondSquare(game,p):
-    for picture in poppedCardList:
-        image = pygame.image.load(picture)
-        imageSize = (300,300)
-        cardImage = pygame.transform.scale(image,imageSize)
-        screen.blit(cardImage,pygame.Vector2(900,500))
+# def addToSecondSquare(game,p):
+#     for picture in poppedCardList:
+#         image = pygame.image.load(picture)
+#         imageSize = (300,300)
+#         cardImage = pygame.transform.scale(image,imageSize)
+#         screen.blit(cardImage,pygame.Vector2(900,500))
 
 def checkGameConnected(game,p):
     if not(game.conneced()):
@@ -293,10 +293,10 @@ def drawWinner():
 
 def toTextInput():
     run = True
-    clock = pygame.time.Clock()
-    n = Network()
-    player = int(n.getP())
-    print('You are player', player)
+    # clock = pygame.time.Clock()
+    # n = Network()
+    # player = int(n.getP())
+    # print('You are player', player)
     global userInput
     # active = False
     # colorActive = 'red'
@@ -304,13 +304,13 @@ def toTextInput():
     # color = colorPassive
     while run:
 
-        clock.tick(60)
-        try:
-            game = n.send('get')
-        except:
-            run = False
-            print('Coudlnt get game') 
-            break  
+        # clock.tick(60)
+        # try:
+        #     game = n.send('get')
+        # except:
+        #     run = False
+        #     print('Coudlnt get game') 
+        #     break  
 
         # print(game.connected())
         # if (game.connected()):
@@ -323,20 +323,20 @@ def toTextInput():
 
         rect = pygame.Rect(500,250,300,100)
 
-        if not(game.connected()):
-            text = get_font(50).render('Waiting for player...',True,'white')
-                # get_font(50).render(userInput,True,'white')
-            screen.blit(text,(400,500))
-        else:
-            submitButton = Button(image=None,pos=(640,650),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
-            submitButton.changeColor(mousePos)
-            submitButton.update(screen)
+        # if not(game.connected()):
+        # text = get_font(50).render('Waiting for player...',True,'white')
+        #         # get_font(50).render(userInput,True,'white')
+        #     screen.blit(text,(400,500))
+        # else:
+        # submitButton = Button(image=None,pos=(640,650),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
+        #     submitButton.changeColor(mousePos)
+        #     submitButton.update(screen)
         
 
 
-        # submitButton = Button(image=None,pos=(640,650),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
-        # submitButton.changeColor(mousePos)
-        # submitButton.update(screen)
+        submitButton = Button(image=None,pos=(640,550),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
+        submitButton.changeColor(mousePos)
+        submitButton.update(screen)
 
 
         # if game.connected()
@@ -362,7 +362,7 @@ def toTextInput():
                 else:
                     userInput += event.unicode
                     # print(n.send(userInput))
-                n.send(userInput)
+        # n.send(userInput)
 
 
         # if active:
