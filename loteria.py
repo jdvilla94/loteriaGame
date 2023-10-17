@@ -150,6 +150,7 @@ def checkWinner():
     for row in dummyArray:
         if sum(row) == 4:
             # print('YOU WON in row '+ str(row))
+            pygame.time.delay(1000)
             drawWinner()
         else:
             print('WE HAVE NO MATCHES for row '+ str(row)) 
@@ -160,20 +161,26 @@ def checkWinner():
         col_sum = sum(dummyArray[row][col] for row in range(len(dummyArray)))
         if col_sum == 4:
             # print('YOU WON in column '+ str(col))
+            pygame.time.delay(1000)
             drawWinner()
         else:
             print('WE HAVE NO MATCHES for column '+ str(col)) 
 
     if dummyArray[0][0] + dummyArray[1][1] + dummyArray[2][2] + dummyArray[3][3] == 4 or dummyArray[3][0] + dummyArray[1][2] + dummyArray[2][1] + dummyArray[3][0] == 4:
         # print('YOU WON in the first diagnol')
+        pygame.time.delay(1000)
         drawWinner()
 
-# def addToSecondSquare():
-#     for picture in poppedCardList:
-#         image = pygame.image.load(picture)
-#         imageSize = (300,300)
-#         cardImage = pygame.transform.scale(image,imageSize)
-#         screen.blit(cardImage,pygame.Vector2(900,500))
+def addToSecondSquare(game,p):
+    for picture in poppedCardList:
+        image = pygame.image.load(picture)
+        imageSize = (300,300)
+        cardImage = pygame.transform.scale(image,imageSize)
+        screen.blit(cardImage,pygame.Vector2(900,500))
+
+def checkGameConnected(game,p):
+    if not(game.conneced()):
+        print('WE ARE NOT CONNECTED')
 
 def clickSquare():
     # print(f"Clicked on cell({row},{column})")
@@ -201,6 +208,7 @@ def clickSquare():
         screen.blit(cardImage,pygame.Vector2(900,10))
         cardList.remove(currentCard)
         drawBeanToScreen()
+        # pygame.time.delay(3000)
         # print('the length of the cardlist currently is: '+ str(len(cardList)))
                         
     else:
@@ -284,14 +292,29 @@ def drawWinner():
         pygame.display.update()
 
 def toTextInput():
-    # n = Network()
+    run = True
+    clock = pygame.time.Clock()
+    n = Network()
+    player = int(n.getP())
+    print('You are player', player)
     global userInput
     # active = False
     # colorActive = 'red'
     # colorPassive = 'blue'
     # color = colorPassive
-    while True:
-        
+    while run:
+
+        clock.tick(60)
+        try:
+            game = n.send('get')
+        except:
+            run = False
+            print('Coudlnt get game') 
+            break  
+
+        # print(game.connected())
+        # if (game.connected()):
+    
         screen.fill('black')
         mousePos = pygame.mouse.get_pos()
         header = get_font(100).render('ENTER USER NAME',True,'white')
@@ -300,10 +323,23 @@ def toTextInput():
 
         rect = pygame.Rect(500,250,300,100)
 
+        if not(game.connected()):
+            text = get_font(50).render('Waiting for player...',True,'white')
+                # get_font(50).render(userInput,True,'white')
+            screen.blit(text,(400,500))
+        else:
+            submitButton = Button(image=None,pos=(640,650),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
+            submitButton.changeColor(mousePos)
+            submitButton.update(screen)
+        
 
-        submitButton = Button(image=None,pos=(640,550),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
-        submitButton.changeColor(mousePos)
-        submitButton.update(screen)
+
+        # submitButton = Button(image=None,pos=(640,650),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
+        # submitButton.changeColor(mousePos)
+        # submitButton.update(screen)
+
+
+        # if game.connected()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -326,7 +362,7 @@ def toTextInput():
                 else:
                     userInput += event.unicode
                     # print(n.send(userInput))
-                # n.send(userInput)
+                n.send(userInput)
 
 
         # if active:
@@ -353,20 +389,8 @@ def readCard(card):
 def mainScreen():
     run = True
     gameStart = False
-    clock = pygame.time.Clock()
-    n = Network()
-    player = int(n.getP())
-    print('You are player', player)
     
-    while run:
-        clock.tick(60)
-        try:
-            game = n.send('get')
-        except:
-            run = False
-            print('Coudlnt get game') 
-            break  
-            
+    while run:            
         # if ():
         #     pygame.time.delay(200)
         #     try:
@@ -390,27 +414,21 @@ def mainScreen():
             button.update(screen)
 
         for event in pygame.event.get():
-                # pygame.event.set_blocked(pygame.MOUSEMOTION)
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if playButton.checkForInput(mousePos):
                     toTextInput()
-                            # play()
                         
             if event.type == pygame.MOUSEBUTTONUP:
                 if playButton.checkForInput(mousePos):
                     toTextInput()
-                        # play()
+        
                 if exitButton.checkForInput(mousePos):
                     pygame.quit()
         pygame.display.update()
                 
-
-        # pygame.display.update()
-        
-
 def play():
     global userInput
     pygame.display.set_caption(userInput+' is playing Loteria!')
@@ -442,8 +460,9 @@ def play():
             #             clickSquare()
         #instead we call the function, and add a delay so it goes througth the cards manually
         clickSquare() 
-        pygame.display.update()   
-        pygame.time.delay(3000)
+        pygame.display.update()
+        pygame.time.delay(3000)   
+        
         
         
 

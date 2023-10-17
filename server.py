@@ -2,11 +2,11 @@ import socket
 from _thread import*
 import sys
 import pickle
-from loteriaGame import Game
+from game import Game
 
 
-# server = '10.45.8.133'
-server = '192.168.0.15'
+server = '10.45.8.133'
+# server = '192.168.0.15'
 # # server = '192.168.0.1'
 # #typically open port, depends on router
 port = 5555
@@ -84,7 +84,7 @@ while True:
     #every two people that connect add two, 
     gameId = (idCount-1)//2
     #if player 1 or player 2, dont have a pair then create new game
-    if idCount %2 ==1:
+    if idCount % 2 ==1:
         games[gameId] = Game(gameId)
         print('Creating a new game...')
 
