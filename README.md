@@ -5,6 +5,7 @@ of the game is to win 4 across, 4 diagnolly, or 4 vertically. Once you win it as
 The game is entirely built in python and pygame. I succesly connected it to a sever and client, but i couldnt pass all the data properly. I will add pvp option later when I study and get 
 more familiar with sockets. 
 
+https://youtu.be/8BS1D1p38CU
 
 <img width="1440" alt="Screenshot 2023-10-18 at 8 02 18 AM" src="https://github.com/jdvilla94/loteriaGame/assets/44591756/5d5357be-65fa-46a4-b70f-8f021f66bab9">
 
