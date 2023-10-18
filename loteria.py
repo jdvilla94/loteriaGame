@@ -346,7 +346,7 @@ def toTextInput():
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if submitButton.checkForInput(mousePos):
-                    if len(userInput) > 4:
+                    if len(userInput) > 2 and len(userInput)<8:
                         play()
                     else:
                         print('YOU NEED TO TYPE A LONGER NAME')
@@ -436,7 +436,7 @@ def play():
         drawGameGrid()
         populateCard()
         drawCardRect()
-        drawSecondCardRect()
+        # drawSecondCardRect()
 
         pygame.event.set_blocked(pygame.MOUSEMOTION)
         for event in pygame.event.get():
