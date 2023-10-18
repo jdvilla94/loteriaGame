@@ -12,11 +12,7 @@ class Game:
         return self.ready
     
     def play(self, player, position):
-        self.moves[player] = move
-        if player == 0:
-            self.p1Went = True
-        else:
-            self.p2Went = True
+      pass
     
     def bothWent(self):
         return self.p1Sign and self.p2Sign

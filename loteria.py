@@ -324,11 +324,11 @@ def toTextInput():
         rect = pygame.Rect(500,250,300,100)
 
         # if not(game.connected()):
-        # text = get_font(50).render('Waiting for player...',True,'white')
+        #     text = get_font(50).render('Waiting for player...',True,'white')
         #         # get_font(50).render(userInput,True,'white')
         #     screen.blit(text,(400,500))
         # else:
-        # submitButton = Button(image=None,pos=(640,650),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
+        #     submitButton = Button(image=None,pos=(640,650),text_input='Submit',font=get_font(75),base_color='white',hovering_color='blue')
         #     submitButton.changeColor(mousePos)
         #     submitButton.update(screen)
         
@@ -362,7 +362,7 @@ def toTextInput():
                 else:
                     userInput += event.unicode
                     # print(n.send(userInput))
-        # n.send(userInput)
+                    # n.send(userInput)
 
 
         # if active:

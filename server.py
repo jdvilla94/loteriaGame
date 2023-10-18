@@ -5,8 +5,8 @@ import pickle
 from game import Game
 
 
-server = '10.45.8.133'
-# server = '192.168.0.15'
+# server = '10.45.8.133'
+server = '192.168.0.15'
 # # server = '192.168.0.1'
 # #typically open port, depends on router
 port = 5555
@@ -42,7 +42,7 @@ def theadedClient(conn,gameId,p):
     while True:
         try:
 
-            data = conn.recv(4096).decode()
+            data = conn.recv(4096*4).decode()
 
             #check if game exists, if client disconnects we delete
             if gameId in games:
