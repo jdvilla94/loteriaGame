@@ -17,4 +17,7 @@ I can make the UI look a bit nicer/appealing. I succesly connected it to a sever
 
 <img width="1440" alt="Screenshot 2023-10-18 at 8 02 44 AM" src="https://github.com/jdvilla94/loteriaGame/assets/44591756/35aa5b56-32a9-40e9-9608-acb61cf160c3">
 
+<img width="1512" alt="Screenshot 2024-02-07 at 2 46 40 PM" src="https://github.com/jdvilla94/loteriaGame/assets/44591756/931ebddc-38f4-4fee-9882-42619523552a">
+
+
 <img width="1440" alt="Screenshot 2023-10-18 at 8 07 25 AM" src="https://github.com/jdvilla94/loteriaGame/assets/44591756/55afa3a9-3263-4984-a267-2bbe00175da0">
